@@ -3,7 +3,7 @@ import os
 import database as db
 
 template_dir = os.path.dirname(os.path.abspath(os.path.dirname(__file__)))
-template_dir = os.path.join(template_dir, 'src', 'templates')
+template_dir = os.path.join(template_dir, 'templates')
 
 app = Flask(__name__, template_folder = template_dir)
 
@@ -14,11 +14,10 @@ def home():
     cursor = db.database.cursor()
     cursor.execute("SELECT * FROM users")
     myresult = cursor.fetchall()
-    #Convertir los datos a diccionario
     insertObject = []
     columnNames = [column[0] for column in cursor.description]
-    for record in myresult:
-        insertObject.append(dict(zip(columnNames, record)))
+    for register in myresult:
+        insertObject.append(dict(zip(columnNames, register)))
     cursor.close()
     return render_template('index.html', data=insertObject)
 
